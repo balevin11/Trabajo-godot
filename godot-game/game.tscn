@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cg1kwxy0i6cco"]
+[gd_scene load_steps=13 format=3 uid="uid://cg1kwxy0i6cco"]
 
 [ext_resource type="PackedScene" uid="uid://d8y0vbxsdm7i" path="res://player.tscn" id="1_5bpr5"]
 [ext_resource type="PackedScene" uid="uid://bm52vnmansr57" path="res://coin.tscn" id="3_sasrq"]
 [ext_resource type="Texture2D" uid="uid://b8aferbgygh2r" path="res://craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/5 GUI/Interface/Tileset.png" id="3_v05f4"]
-[ext_resource type="PackedScene" uid="uid://0e64jei85yn6" path="res://zona_de_muerte.tscn" id="4_eelr8"]
+[ext_resource type="PackedScene" uid="uid://0e64jei85yn6" path="res://dead_zone.tscn" id="4_eelr8"]
 [ext_resource type="PackedScene" uid="uid://bl70rubyxykuy" path="res://enemy_tv.tscn" id="6_f8hur"]
+[ext_resource type="PackedScene" uid="uid://bl8eqbx2ku0i0" path="res://bounce_zone.tscn" id="7_eaqhm"]
 [ext_resource type="Texture2D" uid="uid://b4p4l77hm3lla" path="res://craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/2 Locations/Tiles/Tileset.png" id="9_grtpp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h6a17"]
@@ -342,6 +343,9 @@ sources/1 = SubResource("TileSetAtlasSource_jm3uo")
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qxaf5"]
 distance = 1.0
 
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_mvr28"]
+b = Vector2(1, 34)
+
 [node name="Node2D2" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_5bpr5")]
@@ -381,3 +385,10 @@ shape = SubResource("WorldBoundaryShape2D_qxaf5")
 
 [node name="enemy_tv" parent="." instance=ExtResource("6_f8hur")]
 position = Vector2(468, -47)
+
+[node name="bounce_zone" parent="." instance=ExtResource("7_eaqhm")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bounce_zone"]
+position = Vector2(238, -45)
+rotation = 3.14159
+shape = SubResource("SegmentShape2D_mvr28")

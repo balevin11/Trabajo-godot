@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bl70rubyxykuy"]
+[gd_scene load_steps=46 format=3 uid="uid://bl70rubyxykuy"]
 
 [ext_resource type="Texture2D" uid="uid://b7nopivhs64y" path="res://godot-game/images/craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/4 Enemies/1/Fall.png" id="1_rngkp"]
 [ext_resource type="Script" path="res://enemy_tv.gd" id="1_w5r8d"]
@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://lw103e0pb5an" path="res://godot-game/images/craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/4 Enemies/1/Idle.png" id="3_bxgeu"]
 [ext_resource type="Texture2D" uid="uid://c3md23ubbfbu1" path="res://godot-game/images/craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/4 Enemies/1/Jump.png" id="4_ah8dv"]
 [ext_resource type="Texture2D" uid="uid://bpggktn73w3bq" path="res://godot-game/images/craftpix-net-396765-free-simple-platformer-game-kit-pixel-art/4 Enemies/1/Run.png" id="5_4ibwd"]
-[ext_resource type="PackedScene" uid="uid://0e64jei85yn6" path="res://zona_de_muerte.tscn" id="6_8gphb"]
+[ext_resource type="PackedScene" uid="uid://0e64jei85yn6" path="res://dead_zone.tscn" id="6_8gphb"]
+[ext_resource type="PackedScene" uid="uid://bl8eqbx2ku0i0" path="res://bounce_zone.tscn" id="8_v3xid"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhjrw"]
 atlas = ExtResource("1_rngkp")
@@ -178,7 +179,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"hit",
-"speed": 15.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -277,18 +278,23 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1dmv7"]
 height = 22.0
 
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_q81kc"]
+length = 13.0
+
 [node name="enemy_tv" type="Node2D"]
 script = ExtResource("1_w5r8d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -10)
 sprite_frames = SubResource("SpriteFrames_n3c1d")
-animation = &"idle"
+animation = &"hit"
 autoplay = "idle"
+frame_progress = 0.529719
 
-[node name="Zona de muerte" parent="AnimatedSprite2D" instance=ExtResource("6_8gphb")]
+[node name="Zona de muerte" parent="." instance=ExtResource("6_8gphb")]
+position = Vector2(-1, -10)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Zona de muerte"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zona de muerte"]
 position = Vector2(0, 12)
 shape = SubResource("CapsuleShape2D_1dmv7")
 
@@ -298,8 +304,19 @@ rotation = 1.5708
 target_position = Vector2(6.11959e-07, 14)
 
 [node name="RayCastright" type="RayCast2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(-1, 2)
 rotation = -1.5708
 target_position = Vector2(-5.24537e-07, 12)
 
+[node name="bounce_zone" parent="." instance=ExtResource("8_v3xid")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bounce_zone"]
+position = Vector2(-1, 1)
+rotation = 3.14159
+shape = SubResource("SeparationRayShape2D_q81kc")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

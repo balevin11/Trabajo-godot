@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://0e64jei85yn6"]
 
-[ext_resource type="Script" path="res://zona_de_muerte.gd" id="1_r14bk"]
+[ext_resource type="Script" path="res://dead_zone.gd" id="1_r14bk"]
 
-[node name="Zona de muerte" type="Area2D"]
+[node name="dead_zone" type="Area2D"]
 collision_mask = 2
 script = ExtResource("1_r14bk")
 
